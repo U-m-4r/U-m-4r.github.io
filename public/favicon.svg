@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#FDFCF8" />
+  
+  <!-- Subtle Grid Lines -->
+  <!-- Vertical -->
+  <line x1="128" y1="0" x2="128" y2="512" stroke="#EFECE2" stroke-width="3" />
+  <line x1="256" y1="0" x2="256" y2="512" stroke="#EFECE2" stroke-width="3" />
+  <line x1="384" y1="0" x2="384" y2="512" stroke="#EFECE2" stroke-width="3" />
+  
+  <!-- Horizontal -->
+  <line x1="0" y1="128" x2="512" y2="128" stroke="#EFECE2" stroke-width="3" />
+  <line x1="0" y1="256" x2="512" y2="256" stroke="#EFECE2" stroke-width="3" />
+  <line x1="0" y1="384" x2="512" y2="384" stroke="#EFECE2" stroke-width="3" />
+
+  <!-- Text -->
+  <text x="256" y="375" font-family="'Times New Roman', Times, serif" font-size="340" font-weight="bold" fill="#0F172A" text-anchor="middle" letter-spacing="-20">AU</text>
+</svg>
