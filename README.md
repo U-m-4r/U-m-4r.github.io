@@ -1,16 +1,19 @@
-# Sweet Spot Finder
+# Ahmed Umar — Windows XP Portfolio
 
-use this only as the inspiration but make it better!
+A personal portfolio designed as an authentic Windows XP desktop environment.
 
+Live: [https://aumarz.me](https://aumarz.me)
 
+## Features
+- Classic Windows XP Luna Blue theme and authentic pixel design
+- Interactive desktop with draggable, minimizable, maximizable windows
+- Custom Windows XP mouse cursor (arrow & hand pointer)
+- Windows XP boot sequence with sound effects
+- Embedded PDF Resume viewer
+- Interactive Start Menu and Taskbar
+- Real project showcases with technology stacks and GitHub links
 
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+## Tech Stack
+- React 19
+- Vite
+- Vanilla CSS

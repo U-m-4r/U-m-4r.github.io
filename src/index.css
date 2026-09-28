@@ -1,0 +1,754 @@
+@import url('https://fonts.googleapis.com/css2?family=Tahoma&display=swap');
+
+/* =====================================================================
+   CUSTOM CURSOR — classic Windows XP arrow pointer
+   Base64-encoded 32×32 CUR-style PNG (white arrow with black outline)
+   ===================================================================== */
+:root {
+  /* XP Luna Blue palette */
+  --xp-blue:        #245edb;
+  --xp-blue-light:  #3a75ea;
+  --xp-blue-dark:   #0d3ea0;
+  --xp-green:       #3f9745;
+  --xp-green-light: #52a658;
+  --xp-bg:          #ece9d8;
+  --xp-selection:   #316ac5;
+  --xp-border:      #00138c;
+  --font-ui:        'Tahoma', Arial, sans-serif;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-ui);
+  user-select: none;
+}
+
+html, body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #000;
+  color: #000;
+  font-size: 11px;
+  /* Custom cursor: classic Windows XP arrow */
+  cursor: url('/cursor.png') 0 0, default;
+}
+
+/* Touch devices: disable custom cursor */
+@media (pointer: coarse) {
+  html, body, * { cursor: auto !important; }
+}
+
+/* Standard XP desktop controls use classic arrow pointer */
+button, [role="button"], .desktop-icon, .taskbar-item,
+.start-button, .title-bar-button, .start-menu-item,
+.window {
+  cursor: url('/cursor.png') 0 0, default;
+}
+
+/* Hyperlinks and web actions use classic XP hand pointer */
+a, .project-link-btn, [role="link"] {
+  cursor: url('/cursor-pointer.png') 6 0, pointer;
+}
+
+/* Text input cursor */
+input, textarea, [contenteditable] {
+  cursor: text !important;
+}
+
+/* Window resize — use native for now; don't override */
+
+/* =====================================================================
+   DESKTOP
+   ===================================================================== */
+.desktop {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/bliss.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* =====================================================================
+   DESKTOP ICONS — larger, authentic XP proportions
+   ===================================================================== */
+.desktop-icons {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+  padding: 16px 12px;
+  height: calc(100vh - 40px);
+  pointer-events: none;        /* allow clicks to pass through to desktop */
+}
+
+.desktop-icon {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  cursor: url('/cursor.png') 0 0, default;
+  padding: 6px 4px 5px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  pointer-events: all;
+  gap: 5px;
+}
+
+.desktop-icon svg {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.45));
+}
+
+.desktop-icon span {
+  display: block;
+  color: white;
+  text-shadow:
+    1px  1px 0 #000,
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+   -1px  1px 0 #000;
+  font-size: 11px;
+  line-height: 1.3;
+  word-break: break-word;
+  max-width: 76px;
+}
+
+.desktop-icon.selected {
+  background-color: rgba(49, 106, 197, 0.35);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.desktop-icon.selected span {
+  background-color: var(--xp-selection);
+  color: #fff;
+  text-shadow: none;
+  padding: 0 2px;
+}
+
+/* Projects folder — window-internal icon grid */
+.folder-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 90px);
+  gap: 12px;
+  padding: 16px;
+}
+
+.folder-icon-grid .desktop-icon {
+  background: transparent;
+  width: 90px;
+}
+
+.folder-icon-grid .desktop-icon span {
+  color: #000;
+  text-shadow: none;
+}
+
+/* =====================================================================
+   TASKBAR
+   ===================================================================== */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to bottom, #245edb 0%, #3a75ea 8%, #245edb 40%, #0d3ea0 100%);
+  display: flex;
+  align-items: center;
+  z-index: 10000;
+  border-top: 2px solid #1245b8;
+}
+
+.start-button {
+  height: 100%;
+  background: linear-gradient(to bottom, #5cb86b 0%, #3f9745 30%, #267c2b 100%);
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 15px;
+  padding: 0 18px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-right: 1px solid #1f6423;
+  border-radius: 0 14px 14px 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), inset -1px 0 0 rgba(0,0,0,0.2);
+}
+
+.start-button:active {
+  background: linear-gradient(to bottom, #267c2b 0%, #3f9745 80%, #52a658 100%);
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.4);
+}
+
+.taskbar-items {
+  display: flex;
+  flex: 1;
+  padding: 0 6px;
+  gap: 3px;
+  height: 100%;
+  align-items: center;
+  overflow: hidden;
+}
+
+.taskbar-item {
+  background: linear-gradient(to bottom, #4a7de8 0%, #2d5fcc 100%);
+  color: white;
+  border: 1px solid #1030a0;
+  border-radius: 3px;
+  height: 28px;
+  min-width: 130px;
+  max-width: 160px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  gap: 5px;
+  font-size: 11px;
+  box-shadow: inset 1px 1px 1px rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+.taskbar-item.active {
+  background: linear-gradient(to bottom, #1e3fa0 0%, #2850be 100%);
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
+  border-color: #0a1a6a;
+}
+
+.taskbar-tray {
+  background: linear-gradient(to bottom, #1a80d0 0%, #0f60b8 50%, #0a4a9a 100%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: white;
+  font-size: 11px;
+  border-left: 1px solid #1245b8;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+/* =====================================================================
+   WINDOWS
+   ===================================================================== */
+.window {
+  position: absolute;
+  background-color: var(--xp-bg);
+  border: 3px solid var(--xp-blue);
+  border-radius: 7px 7px 0 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.55);
+  overflow: hidden;
+  min-width: 300px;
+  min-height: 200px;
+}
+
+.window.maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: calc(100vh - 40px) !important;
+  border: none;
+  border-radius: 0;
+}
+
+.title-bar {
+  background: linear-gradient(to right, #0058e6 0%, #3a93ff 45%, #0058e6 100%);
+  color: white;
+  height: 28px;
+  min-height: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px 0 6px;
+  cursor: default;
+}
+
+.title-bar.inactive {
+  background: linear-gradient(to right, #7a96df 0%, #9dbaf3 45%, #7a96df 100%);
+}
+
+.title-bar-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  font-size: 12px;
+  text-shadow: 1px 1px 1px #0d3ea0;
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.title-bar-controls {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.title-bar-button {
+  width: 22px;
+  height: 21px;
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 3px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 1;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+
+.title-bar-button.close {
+  background: linear-gradient(to bottom, #e47761 0%, #c73722 55%, #e47761 100%);
+}
+
+.title-bar-button.minimize,
+.title-bar-button.maximize {
+  background: linear-gradient(to bottom, #7296e8 0%, #3165d4 55%, #7296e8 100%);
+}
+
+.title-bar-button:active {
+  box-shadow: inset 2px 2px 3px rgba(0,0,0,0.5);
+}
+
+.window-content {
+  flex: 1;
+  background: white;
+  border: 1px solid #7f9db9;
+  margin: 3px;
+  overflow: auto;
+  color: black;
+  user-select: text;
+  /* no padding here — project-window / app-specific classes add their own */
+}
+
+/* =====================================================================
+   START MENU
+   ===================================================================== */
+.start-menu {
+  position: fixed;
+  bottom: 40px;
+  left: 0;
+  width: 380px;
+  background: white;
+  border: 2px solid var(--xp-border);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 3px -3px 8px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  z-index: 10001;
+}
+
+.start-menu-header {
+  background: linear-gradient(to right, #245edb 0%, #3a75ea 100%);
+  color: white;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 4px 4px 0 0;
+}
+
+.start-menu-avatar {
+  width: 50px;
+  height: 50px;
+  background: white;
+  border: 2px solid rgba(255,255,255,0.7);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--xp-blue);
+  font-weight: bold;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.start-menu-name {
+  font-weight: bold;
+  font-size: 15px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.start-menu-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.start-menu-left {
+  flex: 1;
+  background: white;
+  padding: 6px 4px;
+  border-right: 1px solid #ddd;
+}
+
+.start-menu-right {
+  width: 148px;
+  background: #d3e5fa;
+  padding: 6px 4px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  cursor: url('/cursor.png') 0 0, default;
+  color: black;
+  border-radius: 2px;
+  font-size: 12px;
+}
+
+.start-menu-item:hover {
+  background: var(--xp-selection);
+  color: white;
+}
+
+.start-menu-item svg {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.start-menu-divider {
+  height: 1px;
+  background: linear-gradient(to right, #ccc 0%, #999 50%, #ccc 100%);
+  margin: 4px 8px;
+}
+
+.start-menu-footer {
+  background: linear-gradient(to right, #245edb 0%, #3a75ea 100%);
+  padding: 6px 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.footer-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 11px;
+  padding: 3px 8px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 3px;
+}
+
+.footer-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* =====================================================================
+   PROJECT WINDOWS
+   ===================================================================== */
+.project-window {
+  padding: 16px 20px;
+  font-size: 12px;
+  color: #000;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.project-window h1 {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: #000;
+  border-bottom: 2px solid var(--xp-blue);
+  padding-bottom: 6px;
+}
+
+.project-brief {
+  margin: 0 0 12px 0;
+  line-height: 1.55;
+  color: #1a1a1a;
+  font-size: 12px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--xp-blue);
+  margin-bottom: 5px;
+}
+
+.stack-list {
+  color: #333;
+  font-size: 11px;
+  line-height: 1.65;
+  margin: 0 0 12px 0;
+  border: 1px solid #c0c0c0;
+  background: #f0f0f0;
+  padding: 7px 10px;
+}
+
+.links-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.project-divider {
+  border: none;
+  border-top: 1px solid #c8c8c8;
+  margin: 10px 0;
+}
+
+/* =====================================================================
+   CLASSIC XP-STYLE BUTTONS
+   ===================================================================== */
+.project-link-btn,
+.xp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 14px;
+  background: linear-gradient(to bottom, #f4f4f4 0%, #dcdcdc 100%);
+  border: 1px solid #7f9db9;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  color: #000;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  text-decoration: none;
+  box-shadow: 1px 1px 0 #a0a0a0;
+}
+
+.project-link-btn:hover,
+.xp-btn:hover {
+  background: linear-gradient(to bottom, #d4e4f8 0%, #b8d0f4 100%);
+  border-color: var(--xp-selection);
+  color: #000;
+  text-decoration: none;
+}
+
+.project-link-btn:active,
+.xp-btn:active {
+  background: linear-gradient(to bottom, #b8d0f4 0%, #d4e4f8 100%);
+  border-top-color: #7f9db9;
+  border-left-color: #7f9db9;
+  box-shadow: none;
+}
+
+/* =====================================================================
+   ABOUT WINDOW
+   ===================================================================== */
+.about-window {
+  padding: 20px 24px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #000;
+}
+
+.about-window h2 {
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 1px solid #c8c8c8;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.about-window p {
+  margin-bottom: 8px;
+}
+
+/* =====================================================================
+   CONTACT WINDOW
+   ===================================================================== */
+.contact-window {
+  padding: 20px 24px;
+  font-size: 12px;
+  color: #000;
+}
+
+.contact-window h2 {
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 1px solid #c8c8c8;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.contact-row .label {
+  font-weight: bold;
+  width: 70px;
+  flex-shrink: 0;
+  color: #444;
+}
+
+.contact-row a {
+  color: var(--xp-blue-dark);
+  text-decoration: none;
+}
+
+.contact-row a:hover {
+  text-decoration: underline;
+}
+
+/* =====================================================================
+   PDF VIEWER WINDOW
+   ===================================================================== */
+.pdf-viewer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #888;
+}
+
+.pdf-toolbar {
+  background: var(--xp-bg);
+  border-bottom: 1px solid #9db9d0;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pdf-toolbar span {
+  font-size: 11px;
+  color: #333;
+}
+
+.pdf-iframe-wrap {
+  flex: 1;
+  overflow: hidden;
+}
+
+.pdf-iframe-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* =====================================================================
+   GLOBAL TYPOGRAPHY / LINKS
+   ===================================================================== */
+h1, h2, h3, h4 {
+  font-family: var(--font-ui);
+}
+
+p { line-height: 1.45; }
+
+a { color: var(--xp-blue-dark); }
+a:hover { text-decoration: underline; }
+
+/* =====================================================================
+   SCROLLBAR — classic XP style
+   ===================================================================== */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-left: 1px solid #ddd;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to right, #c8d8f0, #a8b8e0);
+  border: 1px solid #7a96df;
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to right, #a8c4e8, #88a8d8);
+}
+
+::-webkit-scrollbar-button {
+  background: #ece9d8;
+  border: 1px solid #7f9db9;
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+/* =====================================================================
+   KEYBOARD FOCUS — visible outlines for accessibility
+   ===================================================================== */
+:focus-visible {
+  outline: 2px dotted #000;
+  outline-offset: 1px;
+}
+
+/* =====================================================================
+   REDUCED MOTION
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* =====================================================================
+   RESPONSIVE — MOBILE
+   ===================================================================== */
+@media (max-width: 640px) {
+  .desktop-icons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    height: auto;
+    padding: 12px 8px;
+    gap: 6px;
+  }
+
+  .desktop-icon {
+    width: 70px;
+  }
+
+  .desktop-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .window {
+    left: 4px !important;
+    top: 4px !important;
+    width: calc(100vw - 8px) !important;
+    max-height: calc(100vh - 60px) !important;
+  }
+
+  .start-menu {
+    width: 100vw;
+    left: 0;
+    border-radius: 6px 6px 0 0;
+  }
+
+  .taskbar-item {
+    min-width: 80px;
+    max-width: 100px;
+  }
+
+  .taskbar {
+    height: 40px;
+  }
+}

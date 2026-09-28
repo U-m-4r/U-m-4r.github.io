@@ -1,3 +1,0 @@
-- [ ] Restore the original notebook-inspired portfolio layout while refining its presentation.
-- [ ] Show the name as Ahmed Umar everywhere, including page metadata.
-- [ ] Verify desktop/mobile appearance and project interactions.
